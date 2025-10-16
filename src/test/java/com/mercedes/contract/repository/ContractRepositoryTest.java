@@ -331,11 +331,11 @@ class ContractRepositoryTest {
         return financeDetails;
     }
 
-    private Map<String, Object> createValidMassOrders() {
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "Mercedes-Benz C-Class");
-        massOrders.put("quantity", 1);
-        return massOrders;
+    private List<Map<String, Object>> createValidMassOrders() {
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "Mercedes-Benz C-Class");
+        massOrder.put("quantity", 1);
+        return Arrays.asList(massOrder);
     }
 
     // ========== Mock Repository Implementation ==========

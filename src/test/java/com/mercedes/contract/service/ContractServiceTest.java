@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import java.util.function.Function;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -192,12 +193,12 @@ class ContractServiceTest {
         return retailerInfo;
     }
 
-    private Map<String, Object> createSampleMassOrders() {
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "C-Class");
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 60000.0);
-        return massOrders;
+    private List<Map<String, Object>> createSampleMassOrders() {
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "C-Class");
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 60000.0);
+        return Arrays.asList(massOrder);
     }
 
     // Mock implementations for testing
@@ -406,13 +407,13 @@ class ContractServiceTest {
         return financeDetails;
     }
 
-    private Map<String, Object> createValidMassOrders() {
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "Mercedes-Benz C-Class");
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 60000.0);
-        massOrders.put("totalPrice", 60000.0);
-        massOrders.put("deliveryDate", "2024-12-31");
-        return massOrders;
+    private List<Map<String, Object>> createValidMassOrders() {
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "Mercedes-Benz C-Class");
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 60000.0);
+        massOrder.put("totalPrice", 60000.0);
+        massOrder.put("deliveryDate", "2024-12-31");
+        return Arrays.asList(massOrder);
     }
 }

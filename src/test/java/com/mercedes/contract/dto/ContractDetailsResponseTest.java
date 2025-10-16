@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Arrays;
 
 /**
  * Unit tests for ContractDetailsResponse DTO
@@ -73,10 +75,11 @@ class ContractDetailsResponseTest {
         financeDetails.put("interestRate", 3.5);
         financeDetails.put("loanTermMonths", 60);
 
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 60000.00);
-        massOrders.put("totalAmount", 60000.00);
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 60000.00);
+        massOrder.put("totalAmount", 60000.00);
+        List<Map<String, Object>> massOrders = Arrays.asList(massOrder);
 
         response.setCustomerDetails(customerDetails);
         response.setFinanceDetails(financeDetails);
@@ -89,7 +92,7 @@ class ContractDetailsResponseTest {
         // Test specific values
         assertEquals("John", response.getCustomerDetails().get("firstName"));
         assertEquals(50000.00, response.getFinanceDetails().get("loanAmount"));
-        assertEquals(1, response.getMassOrders().get("quantity"));
+        assertEquals(1, response.getMassOrders().get(0).get("quantity"));
     }
 
     @Test
@@ -120,13 +123,14 @@ class ContractDetailsResponseTest {
         financeDetails.put("lenderName", "Mercedes-Benz Financial");
         financeDetails.put("creditScore", 750);
 
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 90000.00);
-        massOrders.put("totalAmount", 90000.00);
-        massOrders.put("discountApplied", 15000.00);
-        massOrders.put("finalAmount", 75000.00);
-        massOrders.put("taxAmount", 6750.00);
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 90000.00);
+        massOrder.put("totalAmount", 90000.00);
+        massOrder.put("discountApplied", 15000.00);
+        massOrder.put("finalAmount", 75000.00);
+        massOrder.put("taxAmount", 6750.00);
+        List<Map<String, Object>> massOrders = Arrays.asList(massOrder);
 
         response.setContractId(contractId);
         response.setPurchaseRequestId(purchaseRequestId);
@@ -158,9 +162,9 @@ class ContractDetailsResponseTest {
         assertEquals(2.9, response.getFinanceDetails().get("interestRate"));
 
         assertNotNull(response.getMassOrders());
-        assertEquals(6, response.getMassOrders().size());
-        assertEquals(90000.00, response.getMassOrders().get("unitPrice"));
-        assertEquals(75000.00, response.getMassOrders().get("finalAmount"));
+        assertEquals(1, response.getMassOrders().size());
+        assertEquals(90000.00, response.getMassOrders().get(0).get("unitPrice"));
+        assertEquals(75000.00, response.getMassOrders().get(0).get("finalAmount"));
     }
 
     @Test
@@ -189,15 +193,15 @@ class ContractDetailsResponseTest {
     @Test
     void testEmptyMapsForJsonbFields() {
         Map<String, Object> emptyMap = new HashMap<>();
-        
+
         response.setCustomerDetails(emptyMap);
         response.setFinanceDetails(emptyMap);
-        response.setMassOrders(emptyMap);
+        response.setMassOrders(Arrays.asList());
 
         assertNotNull(response.getCustomerDetails());
         assertNotNull(response.getFinanceDetails());
         assertNotNull(response.getMassOrders());
-        
+
         assertTrue(response.getCustomerDetails().isEmpty());
         assertTrue(response.getFinanceDetails().isEmpty());
         assertTrue(response.getMassOrders().isEmpty());

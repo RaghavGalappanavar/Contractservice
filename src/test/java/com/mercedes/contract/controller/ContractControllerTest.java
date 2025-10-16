@@ -19,8 +19,14 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
+import jakarta.servlet.http.HttpServletRequest;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for ContractController
@@ -32,10 +38,18 @@ class ContractControllerTest {
     private ContractController contractController;
     private MockContractService mockContractService;
 
+    @Mock
+    private HttpServletRequest mockRequest;
+
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         mockContractService = new MockContractService();
         contractController = new ContractController(mockContractService);
+
+        // Setup mock HttpServletRequest
+        when(mockRequest.getContentType()).thenReturn("application/json");
+        when(mockRequest.getContentLength()).thenReturn(100);
     }
 
     // ========== Unit Tests for generateContract endpoint ==========
@@ -45,7 +59,7 @@ class ContractControllerTest {
     void shouldGenerateContractSuccessfully() {
         ContractRequest request = createValidContractRequest();
         
-        ResponseEntity<ContractResponse> response = contractController.generateContract(request, "trace-123");
+        ResponseEntity<ContractResponse> response = contractController.generateContract(request, "trace-123", mockRequest);
         
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -64,7 +78,7 @@ class ContractControllerTest {
     void shouldHandleValidRequestWithTraceId() {
         ContractRequest request = createValidContractRequest();
         
-        ResponseEntity<ContractResponse> response = contractController.generateContract(request, "custom-trace-id");
+        ResponseEntity<ContractResponse> response = contractController.generateContract(request, "custom-trace-id", mockRequest);
         
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -75,7 +89,7 @@ class ContractControllerTest {
     void shouldHandleValidRequestWithoutTraceId() {
         ContractRequest request = createValidContractRequest();
         
-        ResponseEntity<ContractResponse> response = contractController.generateContract(request, null);
+        ResponseEntity<ContractResponse> response = contractController.generateContract(request, null, mockRequest);
         
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -88,7 +102,7 @@ class ContractControllerTest {
         request.setPurchaseRequestId("DUPLICATE_PR");
         
         assertThrows(ContractGenerationException.class, () -> {
-            contractController.generateContract(request, "trace-123");
+            contractController.generateContract(request, "trace-123", mockRequest);
         });
     }
 
@@ -237,9 +251,10 @@ class ContractControllerTest {
         dealData.setCustomerFinanceDetails(finance);
         
         // Mass orders
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "Mercedes-Benz C-Class");
-        massOrders.put("quantity", 1);
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "Mercedes-Benz C-Class");
+        massOrder.put("quantity", 1);
+        List<Map<String, Object>> massOrders = Arrays.asList(massOrder);
         dealData.setMassOrders(massOrders);
         
         request.setDealData(dealData);
@@ -311,10 +326,10 @@ class ContractControllerTest {
             return finance;
         }
         
-        private Map<String, Object> createMockMassOrders() {
-            Map<String, Object> orders = new HashMap<>();
-            orders.put("vehicleModel", "Mercedes-Benz C-Class");
-            return orders;
+        private List<Map<String, Object>> createMockMassOrders() {
+            Map<String, Object> order = new HashMap<>();
+            order.put("vehicleModel", "Mercedes-Benz C-Class");
+            return Arrays.asList(order);
         }
     }
 }

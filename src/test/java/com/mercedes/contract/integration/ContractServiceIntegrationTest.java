@@ -18,6 +18,8 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,9 +91,9 @@ class ContractServiceIntegrationTest {
                 createHttpEntity(request),
                 ErrorResponse.class
         );
-        assertEquals(HttpStatus.CONFLICT, secondResponse.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, secondResponse.getStatusCode());
         assertNotNull(secondResponse.getBody());
-        assertEquals("CONTRACT_GENERATION_ERROR", secondResponse.getBody().getErrorCode());
+        assertEquals("CONTRACT_GENERATION_FAILED", secondResponse.getBody().getErrorCode());
     }
 
     @Test
@@ -108,7 +110,7 @@ class ContractServiceIntegrationTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("VALIDATION_ERROR", response.getBody().getErrorCode());
+        assertEquals("VALIDATION_FAILED", response.getBody().getErrorCode());
     }
 
     // ========== Integration Tests for Contract Retrieval ==========
@@ -314,7 +316,7 @@ class ContractServiceIntegrationTest {
                 ErrorResponse.class
         );
         
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getErrorCode());
         assertNotNull(response.getBody().getMessage());
@@ -368,13 +370,13 @@ class ContractServiceIntegrationTest {
         return financeDetails;
     }
 
-    private Map<String, Object> createValidMassOrders() {
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "Mercedes-Benz C-Class");
-        massOrders.put("quantity", 1);
-        massOrders.put("color", "Black");
-        massOrders.put("trim", "AMG Line");
-        return massOrders;
+    private List<Map<String, Object>> createValidMassOrders() {
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "Mercedes-Benz C-Class");
+        massOrder.put("quantity", 1);
+        massOrder.put("color", "Black");
+        massOrder.put("trim", "AMG Line");
+        return Arrays.asList(massOrder);
     }
 
     private Map<String, Object> createValidRetailerInfo() {

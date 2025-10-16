@@ -35,17 +35,17 @@ public class Contract {
     @Size(max = 100)
     private String dealId;
 
-    @Column(name = "customer_details", columnDefinition = "jsonb")
+    @Column(name = "customer_details")
     @JdbcTypeCode(SqlTypes.JSON)
     @NotNull
     private Map<String, Object> customerDetails;
 
-    @Column(name = "finance_details", columnDefinition = "jsonb")
+    @Column(name = "finance_details")
     @JdbcTypeCode(SqlTypes.JSON)
     @NotNull
     private Map<String, Object> financeDetails;
 
-    @Column(name = "mass_orders", columnDefinition = "jsonb")
+    @Column(name = "mass_orders")
     @JdbcTypeCode(SqlTypes.JSON)
     @NotNull
     private List<Map<String, Object>> massOrders;

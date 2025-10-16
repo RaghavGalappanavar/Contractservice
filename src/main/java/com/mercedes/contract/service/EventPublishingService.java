@@ -26,6 +26,9 @@ public class EventPublishingService {
     @Value("${contract.events.topic}")
     private String contractEventsTopic;
 
+    @Value("${event.publishing.enabled:true}")
+    private boolean eventPublishingEnabled;
+
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final AuditService auditService;
 
@@ -41,6 +44,13 @@ public class EventPublishingService {
      */
     public void publishContractCreatedEvent(Contract contract) {
         logger.info("Publishing CONTRACT_CREATED event for contractId: {}", contract.getContractId());
+
+        // Skip event publishing if disabled (e.g., in tests)
+        if (!eventPublishingEnabled) {
+            logger.info("Event publishing is disabled, skipping CONTRACT_CREATED event for contractId: {}",
+                       contract.getContractId());
+            return;
+        }
 
         try {
             // Create event payload as per business requirements

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,7 +83,7 @@ class PdfGenerationServiceTest {
         contract.setDealId("DEAL-MIN-001");
         contract.setCustomerDetails(new HashMap<>());
         contract.setFinanceDetails(new HashMap<>());
-        contract.setMassOrders(new HashMap<>());
+        contract.setMassOrders(Arrays.asList(new HashMap<>()));
         contract.setCreatedAt(LocalDateTime.now());
         
         String pdfUrl = pdfGenerationService.generatePdf(contract);
@@ -141,20 +143,20 @@ class PdfGenerationServiceTest {
     void shouldHandleContractWithComplexMassOrders() {
         Contract contract = createValidContract();
         
-        Map<String, Object> complexMassOrders = new HashMap<>();
-        complexMassOrders.put("vehicleModel", "Mercedes-AMG C 63 S");
-        complexMassOrders.put("vehicleVin", "WDDGF4HB1CA123456");
-        complexMassOrders.put("engineType", "V8 Biturbo");
-        complexMassOrders.put("fuelType", "Petrol");
-        complexMassOrders.put("transmission", "9G-TRONIC");
-        complexMassOrders.put("color", "Obsidian Black Metallic");
-        complexMassOrders.put("interiorColor", "Black Nappa Leather");
-        complexMassOrders.put("quantity", 1);
-        complexMassOrders.put("unitPrice", 89500.00);
-        complexMassOrders.put("totalAmount", 89500.00);
-        complexMassOrders.put("deliveryDate", "2024-12-15");
-        
-        contract.setMassOrders(complexMassOrders);
+        Map<String, Object> complexMassOrder = new HashMap<>();
+        complexMassOrder.put("vehicleModel", "Mercedes-AMG C 63 S");
+        complexMassOrder.put("vehicleVin", "WDDGF4HB1CA123456");
+        complexMassOrder.put("engineType", "V8 Biturbo");
+        complexMassOrder.put("fuelType", "Petrol");
+        complexMassOrder.put("transmission", "9G-TRONIC");
+        complexMassOrder.put("color", "Obsidian Black Metallic");
+        complexMassOrder.put("interiorColor", "Black Nappa Leather");
+        complexMassOrder.put("quantity", 1);
+        complexMassOrder.put("unitPrice", 89500.00);
+        complexMassOrder.put("totalAmount", 89500.00);
+        complexMassOrder.put("deliveryDate", "2024-12-15");
+
+        contract.setMassOrders(Arrays.asList(complexMassOrder));
         
         String pdfUrl = pdfGenerationService.generatePdf(contract);
         
@@ -235,11 +237,11 @@ class PdfGenerationServiceTest {
         financeDetails.put("interestRate", 3.5);
         contract.setFinanceDetails(financeDetails);
         
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "C-Class");
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 60000.0);
-        contract.setMassOrders(massOrders);
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "C-Class");
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 60000.0);
+        contract.setMassOrders(Arrays.asList(massOrder));
         
         contract.setCreatedAt(LocalDateTime.now());
         

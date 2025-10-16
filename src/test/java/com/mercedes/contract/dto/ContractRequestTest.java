@@ -13,6 +13,8 @@ import jakarta.validation.ValidatorFactory;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.List;
+import java.util.Arrays;
 
 /**
  * Unit tests for ContractRequest DTO
@@ -209,7 +211,7 @@ class ContractRequestTest {
         Map<String, Object> customer = createSampleCustomer();
         Map<String, Object> customerFinanceDetails = createSampleCustomerFinanceDetails();
         Map<String, Object> retailerInfo = createSampleRetailerInfo();
-        Map<String, Object> massOrders = createSampleMassOrders();
+        List<Map<String, Object>> massOrders = createSampleMassOrders();
 
         ContractRequest.DealData data = new ContractRequest.DealData(dealId, customer,
                                                                      customerFinanceDetails,
@@ -230,7 +232,7 @@ class ContractRequestTest {
         Map<String, Object> customer = createSampleCustomer();
         Map<String, Object> customerFinanceDetails = createSampleCustomerFinanceDetails();
         Map<String, Object> retailerInfo = createSampleRetailerInfo();
-        Map<String, Object> massOrders = createSampleMassOrders();
+        List<Map<String, Object>> massOrders = createSampleMassOrders();
 
         dealData.setDealId(dealId);
         dealData.setCustomer(customer);
@@ -308,13 +310,13 @@ class ContractRequestTest {
         return retailerInfo;
     }
 
-    private Map<String, Object> createSampleMassOrders() {
-        Map<String, Object> massOrders = new HashMap<>();
-        massOrders.put("vehicleModel", "C-Class");
-        massOrders.put("vehicleVin", "VIN123456789");
-        massOrders.put("quantity", 1);
-        massOrders.put("unitPrice", 60000.0);
-        massOrders.put("totalAmount", 60000.0);
-        return massOrders;
+    private List<Map<String, Object>> createSampleMassOrders() {
+        Map<String, Object> massOrder = new HashMap<>();
+        massOrder.put("vehicleModel", "C-Class");
+        massOrder.put("vehicleVin", "VIN123456789");
+        massOrder.put("quantity", 1);
+        massOrder.put("unitPrice", 60000.0);
+        massOrder.put("totalAmount", 60000.0);
+        return Arrays.asList(massOrder);
     }
 }
