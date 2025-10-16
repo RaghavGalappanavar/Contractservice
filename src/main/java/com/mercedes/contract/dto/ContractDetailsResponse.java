@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ public class ContractDetailsResponse {
     private Map<String, Object> financeDetails;
 
     @NotNull
-    private Map<String, Object> massOrders;
+    private List<Map<String, Object>> massOrders;
 
     private String pdfStorageLocation;
 
@@ -44,7 +45,7 @@ public class ContractDetailsResponse {
     // Constructor with all fields
     public ContractDetailsResponse(String contractId, String purchaseRequestId, String dealId,
                                   Map<String, Object> customerDetails, Map<String, Object> financeDetails,
-                                  Map<String, Object> massOrders, String pdfStorageLocation,
+                                  List<Map<String, Object>> massOrders, String pdfStorageLocation,
                                   LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.contractId = contractId;
         this.purchaseRequestId = purchaseRequestId;
@@ -98,11 +99,11 @@ public class ContractDetailsResponse {
         this.financeDetails = financeDetails;
     }
 
-    public Map<String, Object> getMassOrders() {
+    public List<Map<String, Object>> getMassOrders() {
         return massOrders;
     }
 
-    public void setMassOrders(Map<String, Object> massOrders) {
+    public void setMassOrders(List<Map<String, Object>> massOrders) {
         this.massOrders = massOrders;
     }
 

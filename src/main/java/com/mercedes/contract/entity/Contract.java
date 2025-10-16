@@ -8,6 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +48,7 @@ public class Contract {
     @Column(name = "mass_orders", columnDefinition = "jsonb")
     @JdbcTypeCode(SqlTypes.JSON)
     @NotNull
-    private Map<String, Object> massOrders;
+    private List<Map<String, Object>> massOrders;
 
     @Column(name = "pdf_storage_location", length = 500)
     @Size(max = 500)
@@ -67,7 +68,7 @@ public class Contract {
     // Constructor with required fields
     public Contract(String contractId, String purchaseRequestId, String dealId,
                    Map<String, Object> customerDetails, Map<String, Object> financeDetails,
-                   Map<String, Object> massOrders) {
+                   List<Map<String, Object>> massOrders) {
         this.contractId = contractId;
         this.purchaseRequestId = purchaseRequestId;
         this.dealId = dealId;
@@ -123,11 +124,11 @@ public class Contract {
         this.financeDetails = financeDetails;
     }
 
-    public Map<String, Object> getMassOrders() {
+    public List<Map<String, Object>> getMassOrders() {
         return massOrders;
     }
 
-    public void setMassOrders(Map<String, Object> massOrders) {
+    public void setMassOrders(List<Map<String, Object>> massOrders) {
         this.massOrders = massOrders;
     }
 

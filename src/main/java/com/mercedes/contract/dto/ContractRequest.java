@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +64,7 @@ public class ContractRequest {
 
     /**
      * Nested DealData class representing the deal information
+     * Structure matches the flat Map structure from PurchaseRequestService
      */
     public static class DealData {
 
@@ -79,7 +81,7 @@ public class ContractRequest {
         private Map<String, Object> retailerInfo;
 
         @NotNull(message = "Mass orders are required")
-        private Map<String, Object> massOrders;
+        private List<Map<String, Object>> massOrders;
 
         // Default constructor
         public DealData() {
@@ -89,7 +91,7 @@ public class ContractRequest {
         public DealData(String dealId, Map<String, Object> customer,
                        Map<String, Object> customerFinanceDetails,
                        Map<String, Object> retailerInfo,
-                       Map<String, Object> massOrders) {
+                       List<Map<String, Object>> massOrders) {
             this.dealId = dealId;
             this.customer = customer;
             this.customerFinanceDetails = customerFinanceDetails;
@@ -130,11 +132,11 @@ public class ContractRequest {
             this.retailerInfo = retailerInfo;
         }
 
-        public Map<String, Object> getMassOrders() {
+        public List<Map<String, Object>> getMassOrders() {
             return massOrders;
         }
 
-        public void setMassOrders(Map<String, Object> massOrders) {
+        public void setMassOrders(List<Map<String, Object>> massOrders) {
             this.massOrders = massOrders;
         }
     }

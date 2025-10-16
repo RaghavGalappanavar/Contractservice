@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -139,10 +140,11 @@ public class PdfGenerationService {
         // Vehicle Information
         html.append("<div class='section'>");
         html.append("<h2>Vehicle Orders</h2>");
-        Map<String, Object> massOrders = contract.getMassOrders();
-        if (massOrders != null) {
+        List<Map<String, Object>> massOrders = contract.getMassOrders();
+        if (massOrders != null && !massOrders.isEmpty()) {
             // This would be expanded based on the actual structure of massOrders
             html.append("<p>Vehicle configuration and pricing details as specified in the order.</p>");
+            html.append("<p>Number of mass orders: ").append(massOrders.size()).append("</p>");
         }
         html.append("</div>");
 

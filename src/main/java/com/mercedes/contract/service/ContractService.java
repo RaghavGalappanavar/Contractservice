@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -63,12 +65,15 @@ public class ContractService {
             // Generate unique contract ID
             String contractId = generateContractId();
 
+            // Use the customer details directly from the request
+            Map<String, Object> customerDetails = request.getDealData().getCustomer();
+
             // Create contract entity
             Contract contract = new Contract(
                 contractId,
                 request.getPurchaseRequestId(),
                 request.getDealId(),
-                request.getDealData().getCustomer(),
+                customerDetails,
                 request.getDealData().getCustomerFinanceDetails(),
                 request.getDealData().getMassOrders()
             );
