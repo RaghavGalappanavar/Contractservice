@@ -60,6 +60,10 @@ This Terraform configuration deploys a production-ready Contract Service on AWS 
 
 ## Configuration
 
+### S3 Backend Configuration
+
+Uses AWS S3 for remote state storage with service-specific isolation and state locking.
+
 ### Required SSM Parameters
 The following parameters must exist in AWS Systems Manager Parameter Store:
 ```
@@ -210,6 +214,8 @@ The application receives these environment variables:
 - Security group isolation
 - IAM least-privilege access
 - Secrets stored in Parameter Store
+
+
 
 ## Cleanup
 

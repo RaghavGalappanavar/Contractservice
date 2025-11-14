@@ -1,6 +1,6 @@
 terraform {
   required_version = ">= 1.2.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -10,6 +10,14 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 3.1"
     }
+  }
+
+  backend "s3" {
+#    bucket         = "mb-otr-applications-terraform-state-bucket"
+#    key            = "contract-service/terraform.tfstate"
+#    region         = "ap-south-1"
+#    dynamodb_table = "terraform-locks"
+#    encrypt        = true
   }
 }
 
