@@ -29,35 +29,35 @@ provider "aws" {
   }
 }
 
-# Data sources to retrieve shared infrastructure values from SSM (from core infrastructure)
+# Data sources to retrieve shared infrastructure values from SSM (from shared infrastructure)
 data "aws_ssm_parameter" "vpc_id" {
-  name = "/core/${var.environment}/vpc_id"
+  name = "/${var.project_name}/${var.environment}/vpc_id"
 }
 
 data "aws_ssm_parameter" "private_subnet_ids" {
-  name = "/core/${var.environment}/private_subnets"
+  name = "/${var.project_name}/${var.environment}/private_subnets"
 }
 
 data "aws_ssm_parameter" "ecs_cluster_name" {
-  name = "/core/${var.environment}/ecs_cluster_name"
+  name = "/${var.project_name}/${var.environment}/ecs_cluster_name"
 }
 
 data "aws_ssm_parameter" "ecs_task_execution_role_arn" {
-  name = "/core/${var.environment}/ecs_task_execution_role_arn"
+  name = "/${var.project_name}/${var.environment}/ecs_task_execution_role_arn"
 }
 
 data "aws_ssm_parameter" "ecs_security_group_id" {
-  name = "/core/${var.environment}/ecs_security_group_id"
+  name = "/${var.project_name}/${var.environment}/ecs_security_group_id"
 }
 
 # Optional SSM parameters - these may not exist in all environments
 data "aws_ssm_parameter" "kafka_bootstrap_servers" {
   count = var.kafka_bootstrap_servers == "" ? 1 : 0
-  name  = "/core/${var.environment}/kafka_bootstrap_brokers"
+  name  = "/${var.project_name}/${var.environment}/kafka_bootstrap_brokers"
 }
 
 data "aws_ssm_parameter" "http_listener_arn" {
-  name = "/core/${var.environment}/http_listener_arn"
+  name = "/${var.project_name}/${var.environment}/http_listener_arn"
 }
 
 # ECR repository URL will be provided by ecr.tf
@@ -65,7 +65,7 @@ data "aws_ssm_parameter" "http_listener_arn" {
 locals {
   service_name = var.service_name
 
-  # Use shared Kafka from core infrastructure or variable
+  # Use shared Kafka from shared infrastructure or variable
   kafka_bootstrap_servers = var.kafka_bootstrap_servers != "" ? var.kafka_bootstrap_servers : (
     length(data.aws_ssm_parameter.kafka_bootstrap_servers) > 0 ?
     data.aws_ssm_parameter.kafka_bootstrap_servers[0].value :
@@ -79,14 +79,14 @@ locals {
     ManagedBy   = "terraform"
   }
 
-  # Use shared infrastructure from core infrastructure (mockerservice)
+  # Use shared infrastructure from shared resources
   ecs_task_execution_role_arn = data.aws_ssm_parameter.ecs_task_execution_role_arn.value
   ecs_cluster_arn = data.aws_ssm_parameter.ecs_cluster_name.value
   ecs_security_group_id = data.aws_ssm_parameter.ecs_security_group_id.value
   private_subnet_ids = split(",", data.aws_ssm_parameter.private_subnet_ids.value)
   vpc_id = data.aws_ssm_parameter.vpc_id.value
 
-  # Use existing ALB listener ARN from core infrastructure
+  # Use existing ALB listener ARN from shared infrastructure
   http_listener_arn = data.aws_ssm_parameter.http_listener_arn.value
 
   ecr_repository_url = aws_ecr_repository.contract_service.repository_url

@@ -37,7 +37,7 @@ This Terraform configuration deploys a production-ready Contract Service on AWS 
 - **S3 Bucket**: Secure contract document storage with lifecycle policies
 - **Parameter Store**: Secure storage for database credentials and configuration
 
-### Shared Resources (from Core Infrastructure)
+### Shared Resources (from Shared Infrastructure)
 - **VPC & Networking**: Shared VPC, subnets, and security groups
 - **ECS Cluster**: Shared ECS cluster for container orchestration
 - **Application Load Balancer**: Shared ALB with listener rules
@@ -68,7 +68,7 @@ Uses AWS S3 for remote state storage with service-specific isolation and state l
 The following parameters must exist in AWS Systems Manager Parameter Store:
 ```
 /${project_name}/${environment}/vpc_id
-/${project_name}/${environment}/private_subnet_ids
+/${project_name}/${environment}/private_subnets
 /${project_name}/${environment}/ecs_cluster_name
 /${project_name}/${environment}/ecs_task_execution_role_arn
 /${project_name}/${environment}/ecs_security_group_id
@@ -105,7 +105,7 @@ db_username          = "postgres"
 kafka_bootstrap_servers = "your-kafka-servers"
 kafka_topics           = ["contract-events"]
 
-# Note: Using shared ALB from core infrastructure
+# Note: Using shared ALB from shared infrastructure
 ```
 
 ## Deployment
