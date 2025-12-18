@@ -1,0 +1,48 @@
+{
+  "purchaseRequestId": "PR_TEST_12345",
+  "dealId": "DEAL_TEST_12345",
+  "dealData": {
+    "dealId": "DEAL-TEST-5770C8DF",
+    "customer": {
+      "customerAddress": "Leopoldstraße 45, 80802 München, Germany",
+      "customerType": "HOTEL_FLEET",
+      "customerPhone": "+49-89-123-4567",
+      "customerEmail": "fleet@hilton.de",
+      "preferredCurrency": "EUR",
+      "customerId": "CUST-2025-TEST",
+      "customerCompany": "Hilton Hotels Deutschland",
+      "customerName": "Hilton Hotels Deutschland GmbH",
+      "customerTaxId": "DE987654321"
+    },
+    "customerFinanceDetails": {
+      "type": "Lease",
+      "provider": "Mercedes-Benz Financial",
+      "approvalStatus": "Approved",
+      "referenceNumber": "REF-TEST-12345",
+      "termsInMonths": 36,
+      "interestRate": 0.045,
+      "downPaymentRequired": false
+    },
+    "retailerInfo": {
+      "name": "Mercedes-Benz Downtown",
+      "retailerId": "RTL-001"
+    },
+    "massOrders": [
+      {
+        "quantity": 1,
+        "massOrderId": "test-uuid-string",
+        "priceBreakdown": {
+          "baseMsrp": 55000,
+          "optionsMsrp": 4300,
+          "totalMsrp": 59300
+        },
+        "vehicleConfiguration": {
+          "model": "C-Class",
+          "variant": "C300",
+          "color": "Obsidian Black Metallic",
+          "interior": "Black Leather"
+        }
+      }
+    ]
+  }
+}

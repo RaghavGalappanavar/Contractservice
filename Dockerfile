@@ -2,7 +2,7 @@
 # Follows containerization best practices with layer caching and security
 
 # Build stage
-FROM --platform=linux/amd64 maven:3.9.4-eclipse-temurin-17 AS build
+FROM  maven:3.9.4-eclipse-temurin-17 AS build
 
 # Set working directory
 WORKDIR /app
@@ -20,7 +20,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests -B
 
 # Runtime stage - minimal image
-FROM --platform=linux/amd64 eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 # Create non-root user for security
 RUN groupadd -g 1001 appgroup && \
@@ -47,7 +47,7 @@ EXPOSE 8085
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8085/api/contract/actuator/health || exit 1
+    CMD curl -f http://localhost:8085/api/contract/actuator/health || exit 1
 
 # Set JVM options for container environment
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
